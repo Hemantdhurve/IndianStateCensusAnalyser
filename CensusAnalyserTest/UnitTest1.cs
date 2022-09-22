@@ -96,5 +96,52 @@ namespace CensusAnalyserTest
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_HEADER, censusException.eType);
         }
 
+
+        //UC2 
+        //Test Case 2.1
+        [Test]
+        public void GivenIndianStateCodeFile_WhenReaded_ShouldReturnStateCodeDataCount()
+        {
+            //For State Code
+            StateRecord = censusAnalyser.LoadCensusData(Country.INDIA, indianStateCodeFilePath, indianStateCodeHeaders);
+            Assert.AreEqual(37, StateRecord.Count);
+
+        }
+
+        //Test Case 2.2
+        [Test]
+        public void GivenWrongIndianStateCensusFile_WhenRead_ShouldReturnCustomException()
+        {
+            //Passing Wrong State Census File
+            var stateException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, wrongIndianStateCensusFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.FILE_NOT_FOUND, stateException.eType);
+
+        }
+        //Test Case 2.3
+        [Test]
+        public void GivenWrongIndianStateCodeFileType_WhenRead_ShouldReturnCustomException()
+        {
+            //Passing Wrong State Code File Type
+            var stateException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, wrongIndianStateCodeFileType, indianStateCensusHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE, stateException.eType);
+
+        }
+
+        //Test Case 2.4
+        [Test]
+        public void GivenIndianStateCodeFile_WhenDelimiterNotProper_ShouldReturnException()
+        {
+            var stateException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, delimiterIndianstateCodeFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER, stateException.eType);
+        }
+
+        //Test Case 2.5
+        [Test]
+        public void GivenIndianStateCodeFile_WhenHeaderNotProper_ShouldReturnException()
+        {
+            var stateException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, wrongHeaderStateCodeFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_HEADER, stateException.eType);
+        }
+
     }
 }
